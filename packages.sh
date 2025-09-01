@@ -2,5 +2,6 @@
 
 DownloadPackages()
 {
-	pacman -Sy git vim gcc gdb python3 python3-pip python3-venv
+	sudo rm --force --verbose '/var/lib/pacman/db.lck'
+	pacman -Sy git vim gcc gdb
 }
