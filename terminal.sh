@@ -1,13 +1,9 @@
 #!/bin/bash
 
-FULLPATH=$(dirname $(readlink -e "$0"))
+SETUPF=$(realpath ~/dotfile_tmp/install.sh)
 
-source $FULLPATH/functions.sh
+touch "~/.bashrc"
 
-alias lsa='ls -a'
-alias lla='ls -l -a'
-alias c='clear'
-alias grepc='grep --color=red'
-alias makecd='cdMakeDir'
-alias makeVim=''
-alias grepIns='grepInsensible'
+export BASHRC=~/.bashrc
+
+echo $(cat $SETUPF) >$BASHRC
