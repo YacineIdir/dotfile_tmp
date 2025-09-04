@@ -1,9 +1,7 @@
 #!/bin/bash
 
-SETUPF=$(realpath ~/dotfile_tmp/install.sh)
-
-touch "~/.bashrc"
+SETUPF=$(realpath $HOME/dotfile_tmp/install.sh)
 
 export BASHRC=~/.bashrc
 
-echo $(cat $SETUPF) >$BASHRC
+cp $SETUPF $BASHRC
