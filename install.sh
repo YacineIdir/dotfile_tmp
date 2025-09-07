@@ -11,7 +11,7 @@ gitConfigFunc() {
 }
 
 downloadPack() {
-  pacman -Sy nvim git gcc gdb python python-pip
+  sudo pacman -Sy nvim git gcc gdb python python-pip
   git clone https://github.com/LazyVim/starter ~/.config/nvim
   rm -rf ~/.config/nvim/.git
 }
