@@ -16,6 +16,11 @@ downloadPack() {
   rm -rf ~/.config/nvim/.git
 }
 
+touchVim() {
+  touch "$1"
+  nvim $1
+}
+
 cdMakeDir() {
   mkdir $1
   cd $1
@@ -34,15 +39,18 @@ alias lsa='ls -a'
 alias lla='ls -l -a'
 alias c='clear'
 alias grepc='grep --color=auto'
-alias grepIns='grepInsensible'
+alias mygrep='grepInsensible'
 alias mkdirCd='cdMakeDir'
+alias tvim='touchVim'
 
 echo "Checking folders..."
 mkdir -p $HOME/bin $HOME/cegep $HOME/projets
 
 export PATH=$PATH:~/bin
 
-echo "include $HOME/dotfile_tmp/GojoTheme.conf" >>~/.config/kitty/kitty.conf
+if ! grep -q "include $HOME/dotfile_tmp/GojoTheme.conf" "$HOME/.config/kitty/kitty.conf"; then
+  echo "include $HOME/dotfile_tmp/GojoTheme.conf" >"$HOME/.config/kitty/kitty.conf"
+fi
 
 clear
 
