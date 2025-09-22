@@ -11,7 +11,38 @@ gitConfigFunc() {
 }
 
 downloadPack() {
-  sudo pacman -Sy nvim git gcc gdb python python-pip nmap
+  sudo pacman -S --noconfirm nvim git gcc gdb python python-pip nmap base-devel
+
+  git clone https://aur.archlinux.org/paru.git /tmp/paru && \
+  cd /tmp/paru && \
+  makepkg -si --noconfirm && \
+  cd ~ && rm -rf /tmp/paru
+
+  AUR_PACKAGES=(
+  matroschka
+  openpuff
+  pngcheck
+  silenteye
+  stegcracker
+  stegdetect
+  steghide
+  stegolego
+  stegoveritas
+  stegseek
+  stegsolve
+  stepic
+  zsteg
+)
+
+echo "Installing packages via paru (AUR + repos):"
+# Try to install with paru; if a package name doesn't exist paru will prompt or fail — we capture that.
+for pkg in "${AUR_PACKAGES[@]}"; do
+  echo "==> Installing $pkg"
+  paru -S --noconfirm --needed "$pkg" || {
+    echo "WARNING: failed to install $pkg with name '$pkg' — paru may not find exact name. Check AUR or search with: paru -Ss $pkg"
+  }
+done
+  
   git clone https://github.com/LazyVim/starter ~/.config/nvim
   rm -rf ~/.config/nvim/.git
 }
