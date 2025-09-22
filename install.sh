@@ -11,7 +11,8 @@ gitConfigFunc() {
 }
 
 downloadPack() {
-  sudo pacman -Sy nvim git gcc gdb python python-pip
+  sudo pacman -Sy nvim git gcc gdb python python-pip nmap
+  sudo yay -S matroschka openpuff pngcheck silenteye stegcracker stegdetect steghide stegolego stegoveritas stegseek stegsolve stepic zsteg
   git clone https://github.com/LazyVim/starter ~/.config/nvim
   rm -rf ~/.config/nvim/.git
 }
