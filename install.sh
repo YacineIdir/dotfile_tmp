@@ -11,7 +11,7 @@ gitConfigFunc() {
 }
 
 downloadPack() {
-  sudo pacman -S --noconfirm nvim git gcc gdb python python-pip nmap base-devel
+  sudo pacman -S --noconfirm --needed nvim git gcc gdb python python-pip nmap base-devel
 
   git clone https://aur.archlinux.org/paru.git /tmp/paru && \
   cd /tmp/paru && \
@@ -32,10 +32,12 @@ downloadPack() {
   stegsolve
   stepic
   zsteg
+  snow
+  stegsnow
 )
 
-echo "Installing packages via paru (AUR + repos):"
-# Try to install with paru; if a package name doesn't exist paru will prompt or fail — we capture that.
+echo "Installing packages AUR"
+
 for pkg in "${AUR_PACKAGES[@]}"; do
   echo "==> Installing $pkg"
   paru -S --noconfirm --needed "$pkg" || {
