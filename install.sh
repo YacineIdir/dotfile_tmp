@@ -11,50 +11,50 @@ gitConfigFunc() {
 }
 
 downloadPack() {
-  set -euo pipefail
+  set -uo pipefail
 
-  sudo pacman -Syu --noconfirm
-  sudo pacman -S --noconfirm --needed \
-    base-devel git gcc gdb make python python-pip nmap neovim
-  
-  if ! command -v paru >/dev/null 2>&1; then
-    tmpdir="$(mktemp -d)"
-    git clone https://aur.archlinux.org/paru.git "$tmpdir/paru"
-    cd "$tmpdir/paru"
-    makepkg -si --noconfirm
-    cd ~
-    rm -rf "$tmpdir"
-  fi
-  
-  AUR_PACKAGES=(
-    openstego
-    pngcheck
-    steghide
-    stegseek
-    stegsolve
-    python-stegoveritas
-    zsteg
-    stegsnow-git
-    stegify
-  )
-  
-  declare -A PIP_FALLBACK=(
-    [stegcracker]="stegcracker"
-    [stepic]="stepic"
-    [stegoveritas]="stegoveritas"
-    [stegano]="stegano"
-  )
-  
-  for pkg in "${AUR_PACKAGES[@]}"; do
+sudo pacman -Syu --noconfirm
+sudo pacman -S --noconfirm --needed base-devel git gcc gdb python python-pip nmap neovim
+
+if ! command -v paru >/dev/null 2>&1; then
+  tmpdir="$(mktemp -d)"
+  git clone https://aur.archlinux.org/paru.git "$tmpdir/paru"
+  cd "$tmpdir/paru"
+  makepkg -si --noconfirm
+  cd ~
+  rm -rf "$tmpdir"
+fi
+
+AUR_PACKAGES=(
+  openstego
+  pngcheck
+  steghide
+  stegseek
+  stegsolve
+  python-stegoveritas
+  zsteg
+  stegsnow-git
+  stegify-bin
+)
+
+for pkg in "${AUR_PACKAGES[@]}"; do
+  if ! paru -Qi "$pkg" >/dev/null 2>&1; then
     paru -S --noconfirm --needed "$pkg" || true
-  done
-  
-  for pip_pkg in "${PIP_FALLBACK[@]}"; do
-    python -m pip install --upgrade --user "$pip_pkg" || true
-  done
-  
+  fi
+done
+
+PIP_PACKAGES=(stegcracker stepic)
+python -m pip install --upgrade --user pip wheel setuptools || true
+for pip_pkg in "${PIP_PACKAGES[@]}"; do
+  if ! python -m pip show "$pip_pkg" >/dev/null 2>&1; then
+    python -m pip install --user "$pip_pkg" || true
+  fi
+done
+
+if [ ! -d "$HOME/.config/nvim" ]; then
   git clone https://github.com/LazyVim/starter ~/.config/nvim
   rm -rf ~/.config/nvim/.git
+fi
 }
 
 touchVim() {
