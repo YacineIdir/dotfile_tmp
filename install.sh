@@ -14,9 +14,17 @@ downloadPack() {
   set -uo pipefail
 
 sudo pacman -Syu --noconfirm
-sudo pacman -S --noconfirm --needed base-devel git gcc gdb python python-pip nmap neovim rofi xorg xorg-xinit netcat tcpdump wireshark-q wireshark-q john binwalk exiftool metasploit gdb ghidra
+sudo pacman -S --noconfirm --needed base-devel git gcc gdb python python-pip nmap neovim dmenu xorg xorg-xinit netcat tcpdump wireshark-q wireshark-q john binwalk exiftool metasploit gdb ghidra
 
-bash -c "$(curl -fsSL https://gef.blah.cat/sh)"
+mkdir -p "$HOME/.local/bin"
+cat > "$HOME/.local/bin/dmenu-launch" << 'EOF'
+#!/usr/bin/env bash
+exec dmenu_run
+EOF
+chmod +x "$HOME/.local/bin/dmenu-launch"
+mkdir -p "$HOME/.config/i3"
+printf '\nbindsym $mod+d exec --no-startup-id ~/.local/bin/dmenu-launch\n' >> "$HOME/.config/i3/config"
+i3-msg reload >/dev/null 2>&1 || true
 
 echo "" >> "$HOME/.config/i3/config"
 echo "# Lanceur d'applications avec rofi" >> "$HOME/.config/i3/config"
