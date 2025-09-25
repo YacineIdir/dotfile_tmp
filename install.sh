@@ -14,7 +14,11 @@ downloadPack() {
   set -uo pipefail
 
 sudo pacman -Syu --noconfirm
-sudo pacman -S --noconfirm --needed base-devel git gcc gdb python python-pip nmap neovim
+sudo pacman -S --noconfirm --needed base-devel git gcc gdb python python-pip nmap neovim rofi
+
+echo "" >> "$HOME/.config/i3/config"
+echo "# Lanceur d'applications avec rofi" >> "$HOME/.config/i3/config"
+echo 'bindsym $mod+d exec --no-startup-id rofi -show drun' >> "$HOME/.config/i3/config"
 
 if ! command -v paru >/dev/null 2>&1; then
   tmpdir="$(mktemp -d)"
