@@ -14,7 +14,7 @@ downloadPack() {
   set -uo pipefail
 
 sudo pacman -Syu --noconfirm
-sudo pacman -S --noconfirm --needed base-devel git gcc gdb python python-pip nmap neovim rofi
+sudo pacman -S --noconfirm --needed base-devel git gcc gdb python python-pip nmap neovim rofi xorg xorg-xinit netcat tcpdump wireshark-q wireshark-q john binwalk exiftool metasploit gdb ghidra gef
 
 echo "" >> "$HOME/.config/i3/config"
 echo "# Lanceur d'applications avec rofi" >> "$HOME/.config/i3/config"
